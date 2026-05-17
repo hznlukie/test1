@@ -5,7 +5,11 @@ using namespace std;
 //random stttring globally, cuz c++ is literally trolling me. i swear it has agenda, i put string down locally, and c++ was like "erm actually i dont know what special attack is, it wasnt declared🤓" when i tried calling the function....
 string specialattack1;
 string specialattack2;
-
+int monsterstun = 0;
+int helpmevariable;
+int vyber;
+int poisondamage = 0;
+int check =0;
 
 
 //jdu delat prvni funkci v mem zivote, to dopadne skvele
@@ -14,15 +18,80 @@ string specialattack2;
 void fight(int& maxhp, int& hp,
 int& maxmana, int& mana,
 int& level, int& xp,
-int& gold, int& attack, int monsterattack)
+int& gold, int& attack, int monsterattack, int monsterhp)
 {
-    cout << "wild pacholik attacks you!     ";
-    cout << "co je tvuj prvni tah!?" << endl;
-    cout << "vyber si z" << endl;
-    cout << "attack           " << specialattack1 << "            " << specialattack2;
+    cout << "wild pacholik attacks you!     " << endl; this_thread::sleep_for(chrono::milliseconds(1000));
+    while (hp > 0 && monsterhp > 0){
+    cout << "co je tvuj tah!?" << endl; this_thread::sleep_for(chrono::milliseconds(1000));
+    check = 0;
+    while (check == 0){
+    cout << "vyber si cislo" << endl; this_thread::sleep_for(chrono::milliseconds(1000));
+    cout << "1 - attack                    "; this_thread::sleep_for(chrono::milliseconds(1000)); cout << endl; cout << "2 - " << specialattack1; this_thread::sleep_for(chrono::milliseconds(1000)); cout << endl; cout << "3 - " << specialattack2;
+cin >> vyber;
+    if (vyber==1){
+        monsterhp= monsterhp - attack;
+        check = 1;
+    }
+    //the most disguisting inhumane code i ever formed
+    if (vyber == 2 && helpmevariable == 1) {
+cout << "omracil ste to!";
+monsterstun = 1;
+ check = 1;
+}
+        else if (vyber == 2 && helpmevariable == 2) {
+poisondamage=2;
+ check = 1;
+}
+            else if (vyber == 2 && helpmevariable == 3) {
+//multiple enemies damage, again future myself problem
+ check = 1;
+}
+                else if (vyber == 2 && helpmevariable == 4) {
+monsterhp= monsterhp - (attack+2);
+hp=hp+attack/2;
+if (hp > maxhp) hp = maxhp;
+ check = 1;
+}
+                    else if (vyber == 3 && helpmevariable == 1) {
+cout << "healnul jsi se";
+hp=hp+20;
+if (hp>maxhp){
+    hp=maxhp;
+}
+ check = 1;
+}
+                        else if (vyber == 3 && helpmevariable == 2) {
+cout << "trapnul ste to!";
+monsterstun = 1;
+ check = 1;
+}
+                            else if (vyber == 3 && helpmevariable == 3) {
+cout << "zmrazil ste to!";
+monsterstun = 1;
+ check = 1;
+}
+                                else if (vyber == 3 && helpmevariable == 4) {
+ monsterattack=monsterattack-monsterattack/5;
+ check = 1;
+}
+                                        else {
+cout << "zadejte valid option ";
+} }
+if (poisondamage > 0){
+    cout << "dostal poison damage " << poisondamage;
+    monsterhp=monsterhp-poisondamage;
+}
+    if (monsterhp > 0 && monsterstun == 0){
+//monster turn code
+    } else if (monsterhp > 0 && monsterstun == 1) {
+    cout << "Monster je omraceny a preskakuje tah!" << endl;
+    monsterstun = 0;
+}
+    }
     //kurva to je v pici, ja nemam zadnou logiku na special utoky, vsak kazdy character ma jine...
 //tak treba ctvrku sem vyresil, zbytek se spravi potom.
-
+// sigh,.. ted je to potom
+//tak je to jeste vetsi problem... kazdy ma jinou schopnost s jinymi efekty... ja HAHAHAHHHAAAHAHA budu muset delat dalsi ctyri variables ahhahahahahha
 }
 int main(){
     //variables - problem of my future self---- present self, yep thats me, its pain.
@@ -34,7 +103,6 @@ int level;
 int xp;
 int gold;
 int attack;
-
 
 
             //zasrany postavy jebany
@@ -105,7 +173,6 @@ if (odpoved1 == "bratr" && odpoved2 == "facepalm"){
 cout << "vybrali ste si bratr facepalm, ste si jisty? (ano/ne)";
 string potvrzeni;
 cin >> potvrzeni;
-
 if (potvrzeni == "ano") {
     confirmed = true;
 maxhp=200;
@@ -118,6 +185,7 @@ gold=0;
 attack=30;
 specialattack1= "shield bash"; //stun
 specialattack2= "divine heal"; //heal
+helpmevariable = 1; // function logic on line 29
 }
 }
 else if (odpoved1 == "lesni" && odpoved2 == "smejd"){
@@ -137,6 +205,7 @@ gold=0;
 attack=30;
 specialattack1= "poison arrow"; //dmg over time
 specialattack2= "trap"; //stun
+helpmevariable = 2; // function logic on line 29
 }
 }
 else if (odpoved1 == "chodici" && odpoved2 == "katastrofa"){
@@ -156,6 +225,7 @@ gold=0;
 attack=30;
 specialattack1= "fireball"; //hits all enemies
 specialattack2= "frost nova"; //stun, jakoby freeze ale stun proste..
+helpmevariable = 3; // function logic on line 29
 }
 }
 else if (odpoved1 == "sebevrah"){
@@ -175,6 +245,7 @@ gold=0;
 attack=40;
 specialattack1= "life drain"; //causes dmg and heals for it
 specialattack2= "curse"; //reduce enemy dmg
+helpmevariable = 4; // function logic on line 29
 }
 } else {
     cout << "invalid choice";
@@ -187,7 +258,7 @@ specialattack2= "curse"; //reduce enemy dmg
 //proc tu je dira... tady neco ma byt???
 
 
-
+fight(maxhp, hp, maxmana, mana, level, xp, gold, attack, 5, 5);
 
 //Village zatim jedina vec co se nepokusila mi dat deprese
 cout << "vitej ve vesnici" << endl;
